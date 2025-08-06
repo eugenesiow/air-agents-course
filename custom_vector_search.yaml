@@ -1,0 +1,13 @@
+utility_agents:
+  - agent_class: ResearchAgent
+    agent_name: Research Agent
+    agent_description: This agent answers all your questions about fiscal reports.
+    config:
+      retriever_config_list:
+        - retriever_name: "Fiscal Reports Database"
+          retriever_class: CustomRetriever
+          description: "Data Retriever for fiscal reports and financial documents."
+
+orchestrator:
+  agent_list:
+    - agent_name: "Research Agent"

@@ -1,0 +1,56 @@
+orchestrator:
+  agent_list:
+  - agent_name: Financial Analyst
+
+utility_agents:
+  - agent_class: ResearchAgent
+    agent_name: "Fiscal Report Researcher"
+    agent_description: "Analyzes Accenture's provided fiscal report to extract key financial data and performance metrics."
+    config:
+      retriever_config_list:
+        - retriever_name: "Fiscal Reports Database"
+          retriever_class: CustomRetriever
+          description: "Data Retriever for the uploaded Accenture fiscal report."
+
+  - agent_class: SearchAgent
+    agent_name: "Market Analyst"
+    agent_description: "Researches current market trends in the IT services and consulting industries, focusing on factors relevant to Accenture."
+
+  - agent_class: SearchAgent
+    agent_name: "Competitor Analyst"
+    agent_description: "Researches the financial performance and recent activities of Accenture's key competitors, such as Deloitte, PwC, Capgemini, and IBM Consulting."
+
+  - agent_class: AuthorAgent
+    agent_name: "Comparative Analysis Writer"
+    agent_description: "Writes a comparative analysis report by synthesizing findings from Accenture's fiscal report, market analysis, and competitor research."
+    config:
+      memory_attribute_key: "financial_analysis"
+      title: "Accenture: Comparative Financial Analysis Report"
+      leading_questions:
+        - question: "What are the key financial highlights from Accenture's fiscal report?"
+          prompt: "Summarize the most important financial metrics from Accenture's internal fiscal report, such as revenue, net income, new bookings, and performance by service line (e.g., Strategy & Consulting, Technology, Operations)."
+        - question: "How does Accenture's performance compare to the broader IT services and consulting market trends?"
+          prompt: "Analyze whether Accenture is outperforming, underperforming, or aligning with current market trends, referencing demand for digital transformation, cloud, and security services."
+        - question: "How does Accenture's performance stack up against its key competitors?"
+          prompt: "Provide a comparative analysis of Accenture's financial results against the performance of competitors like Deloitte, PwC, and Capgemini. Focus on revenue growth, profitability, and market share."
+        - question: "What is the overall strategic outlook for Accenture based on this analysis?"
+          prompt: "Synthesize all the information to provide a concluding strategic outlook and recommendation for Accenture, considering its competitive position and market opportunities."
+
+super_agents:
+  - agent_class: FlowSuperAgent
+    agent_name: "Financial Analyst"
+    agent_description: "Orchestrates a financial analysis by comparing an internal Accenture fiscal report with external market and competitor data."
+    config:
+      goal: "To generate a comprehensive comparative analysis report by integrating Accenture's internal financial data with external market and competitor insights."
+      agent_list:
+        - agent_name: "Fiscal Report Researcher"
+          next_step:
+            - "Market Analyst"
+            - "Competitor Analyst"
+        - agent_name: "Market Analyst"
+          next_step:
+            - "Comparative Analysis Writer"
+        - agent_name: "Competitor Analyst"
+          next_step:
+            - "Comparative Analysis Writer"
+        - agent_name: "Comparative Analysis Writer"
