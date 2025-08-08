@@ -174,7 +174,7 @@ async def custom_vector_search_test():
         executor_dict=executor_dict,
     ) as dc:
         queries = [
-            # "what can you tell me about the financial results?",
+            "what can you tell me about the financial results?",
             "what were the days services outstanding and how did they compare with previous years?",
         ]
         for query in queries:
